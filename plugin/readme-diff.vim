@@ -1,7 +1,7 @@
-" TODO Remove `has('nvim-...')` check when the whole Neovim folder search is
-" implemented
-" if exists('g:loaded_readme_diff') || !has('nvim-0.5.0') | finish | endif
-" let g:loaded_readme_diff = v:true
+" TODO Remove `has('nvim-0.5.0')` check when the whole Neovim folder search is
+" implemented.
+if exists('g:loaded_readme_diff') || !has('nvim-0.5.0') | finish | endif
+let g:loaded_readme_diff = v:true
 
 " INIT {{{
 
