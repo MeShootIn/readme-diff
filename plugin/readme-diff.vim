@@ -1,28 +1,23 @@
-" TODO Remove `has('nvim-0.5.0')` check when the whole Neovim folder search is
-" implemented.
-if exists('g:loaded_readme_diff') || !has('nvim-0.5.0') | finish | endif
+if exists('g:loaded_readme_diff') | finish | endif
 let g:loaded_readme_diff = v:true
 
 " INIT {{{
 
 function! s:init() abort
-  const mkdir_rdp = mkdir(readme_diff#README_DIFF_PATH(), 'p', 0400)
-
-  if mkdir_rdp == v:false
-    throw 'error creating directory "' .. readme_diff#README_DIFF_PATH() .. '"'
+  if !has('nvim-' .. readme_diff#MIN_VERSION())
+    throw 'Neovim version must be at least ' .. readme_diff#MIN_VERSION()
   endif
 
-  const mkdir_cp = mkdir(readme_diff#COMMIT_PATH(), 'p', 0400)
-
-  if mkdir_cp == v:false
-    throw 'error creating directory "' .. readme_diff#COMMIT_PATH() .. '"'
-  endif
+  call readme_diff#utils#mkdirs(
+        \ readme_diff#README_DIFF_PATH(),
+        \ readme_diff#COMMIT_PATH()
+        \ )
 endfunction
 
 try
   call s:init()
 catch
-  call readme_diff#utils#echo_errs(v:exception)
+  call readme_diff#utils#log(readme_diff#utils#ERROR(), v:exception)
 
   finish
 endtry
